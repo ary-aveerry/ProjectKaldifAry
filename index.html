@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulus Testbed: Pengumpulan Data Volume Unduhan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sistem Pemantauan Jaringan (Mirror Debian)</h1>
+        <p class="subtitle">Pengumpulan data aktual unduhan (Waktu &amp; Volume). Turunan V' dan V'' dihitung via model Excel.</p>
+
+        <div class="cors-banner">
+            <h3>⚠️ Wajib Aktifkan Ekstensi CORS</h3>
+            <p>Pastikan ekstensi <strong>Allow CORS: Access-Control-Allow-Origin</strong> pada browser Anda sudah diaktifkan (ikon berwarna hijau) sebelum menekan tombol unduh.</p>
+        </div>
+
+        <div class="monitor-box">
+            <div class="stat-grid">
+                <div class="stat-item">
+                    <h3>Waktu t (detik)</h3>
+                    <span id="val-time">0.0 s</span>
+                </div>
+                <div class="stat-item">
+                    <h3>Volume V (MB)</h3>
+                    <span id="val-volume">0.00 MB</span>
+                </div>
+                <div class="stat-item">
+                    <h3>Laju Rata-rata ΔV/Δt</h3>
+                    <span id="val-rate">0.00 MB/s</span>
+                </div>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+            <div style="text-align: right; font-size: 12px; color: #8888a3;" id="val-percent">0%</div>
+        </div>
+
+        <button class="btn" id="btn-download" onclick="startDownload()">Mulai Unduh &amp; Analisis</button>
+
+        <div class="data-log">
+            <h3>Tabel Data Observasi (Data Aktual)</h3>
+            <table id="log-table">
+                <thead>
+                    <tr>
+                        <th>Waktu t (detik)</th>
+                        <th>Volume V (MB)</th>
+                        <th>Laju Rata-rata ΔV/Δt (MB/s)</th>
+                        <th>Latensi (ms)</th>
+                        <th>Kondisi / Kejadian</th>
+                    </tr>
+                </thead>
+                <tbody id="log-body">
+                    <!-- Data observasi otomatis diisi oleh script.js -->
+                </tbody>
+            </table>
+            <button class="btn btn-small" onclick="copyTable()">Salin Tabel (untuk Excel)</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
