@@ -9,6 +9,14 @@
 <body>
 
     <div class="container">
+        <header class="project-header">
+            <img class="project-logo" src="assets/logo-unimed.png" alt="Lambang Universitas Negeri Medan">
+            <div class="project-identity">
+                <p class="project-name">Project Ary Ikhsan Syahputra</p>
+                <p class="project-class">PSIK 26B</p>
+            </div>
+        </header>
+
         <h1>Sistem Pemantauan Jaringan (Mirror Debian)</h1>
         <p class="subtitle">Pengumpulan data aktual unduhan (Waktu &amp; Volume). Turunan V' dan V'' dihitung via model Excel.</p>
 
@@ -35,31 +43,47 @@
             <div class="progress-bar-bg">
                 <div class="progress-fill" id="progress-bar"></div>
             </div>
-            <div style="text-align: right; font-size: 12px; color: #8888a3;" id="val-percent">0%</div>
+            <div style="text-align: right; font-size: 12px; color: var(--color-highlight);" id="val-percent">0%</div>
+        </div>
+
+        <div class="analysis-options">
+            <p class="analysis-label">Durasi analisis</p>
+            <div class="duration-options" role="group" aria-label="Pilih durasi analisis">
+                <button class="duration-option is-selected" type="button" data-duration="end" aria-pressed="true" onclick="selectAnalysisDuration(null)">Sampai Akhir</button>
+                <button class="duration-option" type="button" data-duration="180" aria-pressed="false" onclick="selectAnalysisDuration(180)">180 detik</button>
+                <button class="duration-option" type="button" data-duration="120" aria-pressed="false" onclick="selectAnalysisDuration(120)">120 detik</button>
+                <button class="duration-option" type="button" data-duration="60" aria-pressed="false" onclick="selectAnalysisDuration(60)">60 detik</button>
+            </div>
+            <p>Data dicatat setiap 5 detik. Pilihan durasi akan menghentikan unduhan dan analisis saat waktunya tercapai.</p>
         </div>
 
         <button class="btn" id="btn-download" onclick="startDownload()">Mulai Unduh &amp; Analisis</button>
+        <button class="btn btn-small" id="btn-cancel-download" onclick="cancelDownload()" hidden>Batalkan Pengukuran</button>
+        <button class="btn btn-small" id="btn-export-image" onclick="exportDataAsImage()">Ekspor Seluruh Data sebagai Gambar (PNG)</button>
 
         <div class="data-log">
             <h3>Tabel Data Observasi (Data Aktual)</h3>
-            <table id="log-table">
-                <thead>
-                    <tr>
-                        <th>Waktu t (detik)</th>
-                        <th>Volume V (MB)</th>
-                        <th>Laju Rata-rata ΔV/Δt (MB/s)</th>
-                        <th>Latensi (ms)</th>
-                        <th>Kondisi / Kejadian</th>
-                    </tr>
-                </thead>
-                <tbody id="log-body">
-                    <!-- Data observasi otomatis diisi oleh script.js -->
-                </tbody>
-            </table>
+            <div class="table-wrapper">
+                <table id="log-table">
+                    <thead>
+                        <tr>
+                            <th>Waktu t (detik)</th>
+                            <th>Volume V (MB)</th>
+                            <th>Laju Rata-rata ΔV/Δt (MB/s)</th>
+                            <th>Latensi (ms)</th>
+                            <th>Kondisi / Kejadian</th>
+                        </tr>
+                    </thead>
+                    <tbody id="log-body">
+                        <!-- Data observasi otomatis diisi oleh script.js -->
+                    </tbody>
+                </table>
+            </div>
             <button class="btn btn-small" onclick="copyTable()">Salin Tabel (untuk Excel)</button>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
