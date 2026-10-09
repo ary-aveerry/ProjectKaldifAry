@@ -35,10 +35,6 @@
                     <h3>Volume V (MB)</h3>
                     <span id="val-volume">0.00 MB</span>
                 </div>
-                <div class="stat-item">
-                    <h3>Laju Rata-rata ΔV/Δt</h3>
-                    <span id="val-rate">0.00 MB/s</span>
-                </div>
             </div>
             <div class="progress-bar-bg">
                 <div class="progress-fill" id="progress-bar"></div>
@@ -54,7 +50,7 @@
                 <button class="duration-option" type="button" data-duration="120" aria-pressed="false" onclick="selectAnalysisDuration(120)">120 detik</button>
                 <button class="duration-option" type="button" data-duration="60" aria-pressed="false" onclick="selectAnalysisDuration(60)">60 detik</button>
             </div>
-            <p>Data dicatat setiap 5 detik. Pilihan durasi akan menghentikan unduhan dan analisis saat waktunya tercapai.</p>
+            <p>Data dicatat setiap 10 detik. Pilihan durasi akan menghentikan unduhan dan analisis saat waktunya tercapai.</p>
         </div>
 
         <button class="btn" id="btn-download" onclick="startDownload()">Mulai Unduh &amp; Analisis</button>
@@ -67,9 +63,9 @@
                 <table id="log-table">
                     <thead>
                         <tr>
+                            <th>Jam Aktual</th>
                             <th>Waktu t (detik)</th>
                             <th>Volume V (MB)</th>
-                            <th>Laju Rata-rata ΔV/Δt (MB/s)</th>
                             <th>Latensi (ms)</th>
                             <th>Kondisi / Kejadian</th>
                         </tr>

@@ -5,7 +5,7 @@ let fileUrl = "https://kartolo.sby.datautama.net.id/debian-cd/13.7.0/amd64/iso-c
 
 const STALL_THRESHOLD_MS = 500; // Jeda transfer > 500ms dianggap stall
 const DROP_RATIO = 0.5;         // Penurunan laju > 50% dari interval sebelumnya
-const SAMPLE_INTERVAL_SECONDS = 5;
+const SAMPLE_INTERVAL_SECONDS = 10;
 
 let isDownloading = false;
 let downloadController = null;
@@ -33,11 +33,11 @@ async function startDownload() {
     document.getElementById("progress-bar").style.width = "0%";
     document.getElementById("val-percent").innerText = "0%";
     document.getElementById("val-volume").innerText = "0.00 MB";
-    document.getElementById("val-rate").innerText = "0.00 MB/s";
     document.getElementById("val-time").innerText = "0.0 s";
 
     // State Pengukuran
     const startTime = performance.now();
+    const testStartDate = new Date();
     let currentVolumeMB = 0;     // Volume kumulatif V (MB)
     let lastLogT = 0;            // Waktu log terakhir (s)
     let lastLogVolume = 0;       // Volume log terakhir (MB)
@@ -48,7 +48,7 @@ async function startDownload() {
     let totalSizeMB = 0;
 
     // Titik Awal Wajib Panduan: t = 0
-    addLogRow(0, 0, null, 0, "Awal pengukuran (koneksi dimulai, belum ada data)");
+    addLogRow(testStartDate, 0, 0, 0, "Awal pengukuran (koneksi dimulai, belum ada data)");
 
     const sampleIntervalMs = SAMPLE_INTERVAL_SECONDS * 1000;
     const sampler = setInterval(() => {
@@ -89,7 +89,8 @@ async function startDownload() {
             kondisi = "Normal (tidak ada gangguan)";
         }
 
-        addLogRow(t, currentVolumeMB, rate, latensiMs, kondisi);
+        const actualTime = new Date(testStartDate.getTime() + now - startTime);
+        addLogRow(actualTime, t, currentVolumeMB, latensiMs, kondisi);
 
         lastLogT = t;
         lastLogVolume = currentVolumeMB;
@@ -122,9 +123,6 @@ async function startDownload() {
             const elapsed = (now - startTime) / 1000;
             document.getElementById("val-volume").innerText = currentVolumeMB.toFixed(2) + " MB";
             document.getElementById("val-time").innerText = elapsed.toFixed(1) + " s";
-            document.getElementById("val-rate").innerText =
-                (elapsed > 0 ? currentVolumeMB / elapsed : 0).toFixed(2) + " MB/s";
-
             if (totalSizeMB > 0) {
                 const percentage = Math.min(100, (currentVolumeMB / totalSizeMB) * 100);
                 document.getElementById("progress-bar").style.width = percentage.toFixed(1) + "%";
@@ -197,13 +195,13 @@ function selectAnalysisDuration(durationSeconds) {
     });
 }
 
-function addLogRow(t, volumeMB, rate, latensi, kondisi) {
+function addLogRow(actualTime, t, volumeMB, latensi, kondisi) {
     const tbody = document.getElementById("log-body");
     const tr = document.createElement("tr");
     const cells = [
+        actualTime.toLocaleString("id-ID", { dateStyle: "short", timeStyle: "medium" }),
         t,
         volumeMB.toFixed(2),
-        rate === null ? "-" : rate.toFixed(2),
         latensi === null ? "-" : latensi,
         kondisi
     ];
